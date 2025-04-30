@@ -1,8 +1,6 @@
 import { useRef } from "react"
 import { useState, useEffect } from "react"
 
-
-
 function App() {
 
   const newInput = {
@@ -37,8 +35,6 @@ function App() {
   const handleChange = (e) => {
 
     const { name, value, type, checked } = e.target;
-
-
 
     //nick lunghezza 
     if (name === "nick" && value.length < 6) {
@@ -82,25 +78,25 @@ function App() {
       setPassNumberError(true)
     }
 
+    //descrizione corta
     if (name === "dex" && value.length < 100) {
       setDexShortError(true)
     } else {
       setDexShortError(false)
     }
 
+    //descrizione lunga
     if (name === "dex" && value.length > 1000) {
       setDexLongError(true)
     } else {
       setDexLongError(false)
     }
 
-
     setFormInput((prev) => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
     console.log(formInput)
-
 
   };
 
