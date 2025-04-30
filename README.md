@@ -55,3 +55,25 @@ Utilizziamo useRef() per migliorare l’esperienza utente, implementando le segu
         -Gli input controllati devono tornare ai valori iniziali.
         -Gli input non controllati devono essere resettati manualmente usando useRef().
         -Freccia fissa in basso a destra che, quando cliccata, riporta l'utente all'inizio del form (bisogna usare position: fixed).
+
+const newInput = {
+    name: "",
+    nick: "",
+    pass: "",
+    spec: "",
+    exp: "",
+    dex: "",
+  }
+
+  const [nameError, setNameError] = useState(false)
+
+  const [nickShortError, setNickShortError] = useState(false)
+  const [nickSymbolError, setNickSymbolError] = useState(false)
+  const [nickSpaceError, setNickSpaceError] = useState(false)
+
+  const [passShortError, setPassShortError] = useState(false)
+  const [passSymbolError, setPassSymbolError] = useState(false)
+  const [passNumberError, setPassNumberError] = useState(false)
+
+  const [dexShortError, setDexShortError] = useState(false)
+  const [dexLongError, setDexLongError] = useState(false)
