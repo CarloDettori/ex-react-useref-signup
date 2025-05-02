@@ -22,3 +22,7 @@ form {
     border-radius: 20px;
     color: black;
 }
+
+p {
+    margin: 0
+}

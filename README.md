@@ -38,12 +38,15 @@ Aggiungere la validazione in tempo reale dei seguenti campi:
 
 
 
+
 📌 Milestone 3: Convertire i Campi Non Controllati
 Non tutti i campi del form necessitano di essere aggiornati a ogni carattere digitato. Alcuni di essi non influenzano direttamente l’interfaccia mentre l’utente li compila, quindi è possibile gestirli in modo più efficiente.
 
     -Analizza il form: Identifica quali campi devono rimanere controllati e quali invece possono essere non controllati senza impattare l’esperienza utente.
     -Converti i campi non controllati: Usa useRef() per gestirli e recuperare il loro valore solo al momento del submit.
     -Assicurati che la validazione continui a funzionare: Anche se un campo non è controllato, deve comunque essere validato correttamente quando l’utente invia il form.
+
+
 
 
 🎯 Bonus: Migliorare l'Usabilità
@@ -56,24 +59,44 @@ Utilizziamo useRef() per migliorare l’esperienza utente, implementando le segu
         -Gli input non controllati devono essere resettati manualmente usando useRef().
         -Freccia fissa in basso a destra che, quando cliccata, riporta l'utente all'inizio del form (bisogna usare position: fixed).
 
-const newInput = {
-    name: "",
-    nick: "",
-    pass: "",
-    spec: "",
-    exp: "",
-    dex: "",
-  }
 
-  const [nameError, setNameError] = useState(false)
-
+const [nickError, setNickError] = useState("")
   const [nickShortError, setNickShortError] = useState(false)
+    "shortNick"
   const [nickSymbolError, setNickSymbolError] = useState(false)
+    "symbolNick"
   const [nickSpaceError, setNickSpaceError] = useState(false)
+    "spaceNick"
 
+ 
+const [passError, setPassError] = useState("")
   const [passShortError, setPassShortError] = useState(false)
+    "shortPass"
   const [passSymbolError, setPassSymbolError] = useState(false)
+    "noSymbol"
   const [passNumberError, setPassNumberError] = useState(false)
-
+    "noNumber"
+  
+const [dexError, setDexError] = useState("")
   const [dexShortError, setDexShortError] = useState(false)
+    "shortDex"
   const [dexLongError, setDexLongError] = useState(false)
+    "longDex"
+
+
+    const [error, setError] = useState({
+
+    
+    shortNick: false,
+    symbolNick: false,
+    spaceNick: false,
+
+    
+    shortPass: false,
+    noSymbolPass: false,
+    noNumberPass: false,
+
+    
+    shortDex: false,
+    longDex: false,
+  })

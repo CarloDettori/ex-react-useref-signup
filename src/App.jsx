@@ -20,76 +20,59 @@ function App() {
 
   const specializations = ["Full Stack", "Frontend", "Backend"]
 
-  const [nickShortError, setNickShortError] = useState(false)
-  const [nickSymbolError, setNickSymbolError] = useState(false)
-  const [nickSpaceError, setNickSpaceError] = useState(false)
+  //error from Nickname
+  const [error, setError] = useState({
 
-  const [passShortError, setPassShortError] = useState(false)
-  const [passLongError, setPassLongError] = useState(false)
-  const [passSymbolError, setPassSymbolError] = useState(false)
-  const [passNumberError, setPassNumberError] = useState(false)
+    //Nickname error
+    shortNick: false,
+    symbolNick: false,
+    spaceNick: false,
+    //Password error
+    shortPass: false,
+    SymbolPass: false,
+    NumberPass: false,
+    //Dex error
+    shortDex: false,
+    longDex: false,
 
-  const [dexShortError, setDexShortError] = useState(false)
-  const [dexLongError, setDexLongError] = useState(false)
+  })
+
+
 
   const handleChange = (e) => {
 
     const { name, value, type, checked } = e.target;
 
-    //nick lunghezza 
-    if (name === "nick" && value.length < 6) {
-      setNickShortError(true)
-    } else {
-      setNickShortError(false)
-    }
+    switch (name) {
 
-    //nick simboli
-    if (name === "nick" && symbols.split("").some((symbol) => value.includes(symbol))) {
-      setNickSymbolError(true)
-    } else {
-      setNickSymbolError(false)
-    }
+      case "nick":
+        setError((prevError) => ({
+          ...prevError,
+          shortNick: value.length < 6,
+          symbolNick: symbols.split("").some((symbol) => value.includes(symbol)),
+          spaceNick: value.includes(" "),
+        }));
+        break;
 
-    //nick spazzi 
-    if (name === "nick" && value.includes(" ")) {
-      setNickSpaceError(true)
-    } else {
-      setNickSpaceError(false)
-    }
+      case "pass":
+        setError((prevError) => ({
+          ...prevError,
+          shortPass: value.length < 8,
+          SymbolPass: symbols.split("").some((symbol) => value.includes(symbol)),
+          NumberPass: numbers.split("").some((number) => value.includes(number)),
+        }));
+        break;
 
-    //password lunghezza
-    if (name === "pass" && value.length < 8) {
-      setPassShortError(true)
-    } else {
-      setPassShortError(false)
-    }
+      case "dex":
+        setError((prevError) => ({
+          ...prevError,
+          shortDex: value.length < 100,
+          longDex: value.length > 1000,
+        }));
+        break
 
-    //password simboli
-    if (name === "pass" && symbols.split("").some((symbol) => value.includes(symbol))) {
-      setPassSymbolError(false)
-    } else {
-      setPassSymbolError(true)
-    }
-
-    //password numeri
-    if (name === "pass" && numbers.split("").some((number) => value.includes(number))) {
-      setPassNumberError(false)
-    } else {
-      setPassNumberError(true)
-    }
-
-    //descrizione corta
-    if (name === "dex" && value.length < 100) {
-      setDexShortError(true)
-    } else {
-      setDexShortError(false)
-    }
-
-    //descrizione lunga
-    if (name === "dex" && value.length > 1000) {
-      setDexLongError(true)
-    } else {
-      setDexLongError(false)
+      default:
+        console.error("caso sconosciuto");
     }
 
     setFormInput((prev) => ({
@@ -140,22 +123,22 @@ function App() {
           />
           {formInput.nick === ""
             ? null
-            : (nickShortError
-              ? <p style={{ color: "red" }}>Username troppo corto</p>
+            : (error.shortNick === true
+              ? <p style={{ color: "red" }}>Nickname troppo corto</p>
               : <p style={{ color: "green" }}>lunghezza Username adeguata</p>
             )
           }
           {formInput.nick === ""
             ? null
-            : (nickSymbolError
-              ? <p style={{ color: "red" }}>l'Username non deve contenere simboli</p>
+            : (error.symbolNick === true
+              ? <p style={{ color: "red" }}>Il Nickname non deve contenere simboli</p>
               : <p style={{ color: "green" }}>nessun simbolo</p>
             )
           }
           {formInput.nick === ""
             ? null
-            : (nickSpaceError
-              ? <p style={{ color: "red" }}>l'Username non deve contenere spazzi</p>
+            : (error.spaceNick === true
+              ? <p style={{ color: "red" }}>Il Nickname non deve contenere spazzi</p>
               : <p style={{ color: "green" }}>nessuno spazio</p>
             )
           }
@@ -177,21 +160,21 @@ function App() {
           />
           {formInput.pass === ""
             ? null
-            : (passShortError
+            : (error.shortPass === true
               ? <p style={{ color: "red" }}>Password troppo corta</p>
               : <p style={{ color: "green" }}>lunghezza Password adeguata</p>
             )
           }
           {formInput.pass === ""
             ? null
-            : (passSymbolError
+            : (error.SymbolPass === false
               ? <p style={{ color: "red" }}>la Password deve contenere almeno un simbolo</p>
               : <p style={{ color: "green" }}>contiene un simbolo</p>
             )
           }
           {formInput.pass === ""
             ? null
-            : (passNumberError
+            : (error.NumberPass === false
               ? <p style={{ color: "red" }}>la Password deve contenere almeno un numero</p>
               : <p style={{ color: "green" }}>contiene un numero</p>
             )
@@ -238,14 +221,14 @@ function App() {
           />
           {formInput.dex === ""
             ? null
-            : (dexShortError
+            : (error.shortDex === true
               ? <p style={{ color: "red" }}>Descrizione troppo corta</p>
               : <p style={{ color: "green" }}>lunghezza Descrizione sopra il minimo</p>
             )
           }
           {formInput.dex === ""
             ? null
-            : (dexLongError
+            : (error.longDex === true
               ? <p style={{ color: "red" }}>Descrizione troppo lunga</p>
               : <p style={{ color: "green" }}>lunghezza Descrizione sotto il massimo</p>
             )
