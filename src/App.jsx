@@ -14,7 +14,7 @@ function App() {
 
   const letters = "abcdefghijklmnopqrstuvwxyz";
   const numbers = "0123456789";
-  const symbols = `!@#$%^&*()-_=+[]{}|;:'\\",.<>?/~`;
+  const symbols = `!@#$%^&*()-_=+[]{}|;:'\\",.<>?/~£`;
 
   const [formInput, setFormInput] = useState(newInput)
 
@@ -33,6 +33,15 @@ function App() {
     longDex: false,
   })
 
+  const anyError = []
+  Object.values(error).forEach((value) => {
+    anyError.push(value);
+  });
+  const noError = anyError.every(error => error === false)
+
+  const nameRef = useRef()
+  const specRef = useRef()
+  const expRef = useRef()
 
 
   const handleChange = (e) => {
@@ -54,8 +63,8 @@ function App() {
         setError((prevError) => ({
           ...prevError,
           shortPass: value.length < 8,
-          SymbolPass: symbols.split("").some((symbol) => value.includes(symbol)),
-          NumberPass: numbers.split("").some((number) => value.includes(number)),
+          SymbolPass: !symbols.split("").some((symbol) => value.includes(symbol)),
+          NumberPass: !numbers.split("").some((number) => value.includes(number)),
         }));
         break;
 
@@ -82,8 +91,26 @@ function App() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(formInput);
-    setFormInput(newInput)
+
+    const anyError = []
+    Object.values(error).forEach((value) => {
+      anyError.push(value);
+    });
+    const noError = anyError.every(error => error === false)
+
+    if (noError) {
+      const name = nameRef.current.value
+      formInput.name = name
+      const specialization = specRef.current.value
+      formInput.spec = specialization
+      const experience = expRef.current.value
+      formInput.exp = experience
+      console.log(formInput)
+      setFormInput(newInput)
+    } else {
+      console.error("vlidazione non conentita")
+      console.error(error)
+    }
   };
 
 
@@ -95,9 +122,8 @@ function App() {
         <div className="mb-4">
           <label htmlFor="name" className="form-label">Nome Completo</label>
           <input
-            value={formInput.name}
             name="name"
-            onChange={handleChange}
+            ref={nameRef}
             type="text"
             className="form-control"
             id="name"
@@ -152,7 +178,7 @@ function App() {
             min="8"
             className="form-control"
             id="pass"
-            placeholder="Passwordefficace1!"
+            placeholder="Password1!"
             minLength="8"
             required
           />
@@ -165,14 +191,14 @@ function App() {
           }
           {formInput.pass === ""
             ? null
-            : (error.SymbolPass === false
+            : (error.SymbolPass === true
               ? <p style={{ color: "red" }}>la Password deve contenere almeno un simbolo</p>
               : <p style={{ color: "green" }}>contiene un simbolo</p>
             )
           }
           {formInput.pass === ""
             ? null
-            : (error.NumberPass === false
+            : (error.NumberPass === true
               ? <p style={{ color: "red" }}>la Password deve contenere almeno un numero</p>
               : <p style={{ color: "green" }}>contiene un numero</p>
             )
@@ -180,8 +206,8 @@ function App() {
         </div>
 
         <p className="form-label">Specializzazioni</p>
-        <select name="spec" onChange={handleChange} id="spec" value={formInput.spec} className="form-control selector" required>
-          <option value="" disabled>Seleziona una Specializzazione</option>
+        <select name="spec" id="spec" ref={specRef} className="form-control selector" required>
+          <option value="" selected="selected" disabled>Seleziona una Specializzazione</option>
           <option value="Frontend">Front End</option>
           <option value="Backend">Backend</option>
           <option value="FullStack">Full Stack</option>
@@ -190,16 +216,14 @@ function App() {
         <div className="my-4">
           <label htmlFor="exp" className="form-label">Anni di Esperienza</label>
           <input
-            value={formInput.exp}
             name="exp"
-            onChange={handleChange}
-
+            ref={expRef}
             type="number"
             min="0"
             step="1"
             className="form-control"
             id="exp"
-            placeholder="3"
+            placeholder="0"
             required />
         </div>
 
@@ -232,8 +256,11 @@ function App() {
             )
           }
         </div>
+        {noError
+          ? <button type="submit" className="btn btn-primary mt-5">Invia</button>
+          : <button type="submit" className="btn btn-primary mt-5" disabled>Alcuni campi non sono validi</button>
+        }
 
-        <button type="submit" className="btn btn-primary mt-5">Submit</button>
 
       </form>
     </main>
