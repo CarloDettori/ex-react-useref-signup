@@ -18,11 +18,8 @@ function App() {
 
   const [formInput, setFormInput] = useState(newInput)
 
-  const specializations = ["Full Stack", "Frontend", "Backend"]
 
-  //error from Nickname
   const [error, setError] = useState({
-
     //Nickname error
     shortNick: false,
     symbolNick: false,
@@ -34,7 +31,6 @@ function App() {
     //Dex error
     shortDex: false,
     longDex: false,
-
   })
 
 
@@ -72,22 +68,24 @@ function App() {
         break
 
       default:
-        console.error("caso sconosciuto");
+        console.log("uncontrolled");
     }
 
     setFormInput((prev) => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
-    console.log(formInput)
+    console.log(value)
 
   };
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(formInput);
     setFormInput(newInput)
   };
+
 
   return (
     <main>
@@ -131,14 +129,14 @@ function App() {
           {formInput.nick === ""
             ? null
             : (error.symbolNick === true
-              ? <p style={{ color: "red" }}>Il Nickname non deve contenere simboli</p>
+              ? <p style={{ color: "red" }}>il Nickname non deve contenere simboli</p>
               : <p style={{ color: "green" }}>nessun simbolo</p>
             )
           }
           {formInput.nick === ""
             ? null
             : (error.spaceNick === true
-              ? <p style={{ color: "red" }}>Il Nickname non deve contenere spazzi</p>
+              ? <p style={{ color: "red" }}>il Nickname non deve contenere spazzi</p>
               : <p style={{ color: "green" }}>nessuno spazio</p>
             )
           }
@@ -181,8 +179,8 @@ function App() {
           }
         </div>
 
-        <p>Specializzazioni</p>
-        <select name="spec" onChange={handleChange} id="spec" value={formInput.spec} required>
+        <p className="form-label">Specializzazioni</p>
+        <select name="spec" onChange={handleChange} id="spec" value={formInput.spec} className="form-control selector" required>
           <option value="" disabled>Seleziona una Specializzazione</option>
           <option value="Frontend">Front End</option>
           <option value="Backend">Backend</option>

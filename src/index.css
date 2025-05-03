@@ -26,3 +26,7 @@ form {
 p {
     margin: 0
 }
+
+.selector {
+    cursor: pointer;
+}
