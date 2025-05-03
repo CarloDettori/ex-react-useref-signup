@@ -43,6 +43,9 @@ function App() {
   const specRef = useRef()
   const expRef = useRef()
 
+  useEffect(() => {
+    nameRef.current.focus()
+  })
 
   const handleChange = (e) => {
 
