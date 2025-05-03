@@ -256,12 +256,16 @@ function App() {
             )
           }
         </div>
-        {noError
-          ? <button type="submit" className="btn btn-primary mt-5">Invia</button>
-          : <button type="submit" className="btn btn-primary mt-5" disabled>Alcuni campi non sono validi</button>
-        }
+        <div className="d-flex">
+          {
 
-
+            (noError
+              ? <button type="submit" className="btn btn-primary mt-5">Invia</button>
+              : <button type="submit" className="btn btn-primary mt-5" disabled>Compila tutti i campi come richiesto</button>
+            )
+          }
+          <button type="reset" onClick={() => { setFormInput(newInput) }} className="btn btn-danger mt-5 ms-auto">Resetta</button>
+        </div>
       </form>
     </main>
   )
