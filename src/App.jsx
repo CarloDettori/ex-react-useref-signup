@@ -34,10 +34,15 @@ function App() {
   })
 
   const anyError = []
+  const anyInput = []
   Object.values(error).forEach((value) => {
+    anyError.push(value);
+  })
+  Object.values(newInput).forEach((value) => {
     anyError.push(value);
   });
   const noError = anyError.every(error => error === false)
+  const noInput = anyInput.every(input => input === "")
 
   const nameRef = useRef()
   const specRef = useRef()
@@ -45,7 +50,7 @@ function App() {
 
   useEffect(() => {
     nameRef.current.focus()
-  })
+  }, [])
 
   const handleChange = (e) => {
 
@@ -261,11 +266,12 @@ function App() {
         </div>
         <div className="d-flex">
           {
-
-            (noError
-              ? <button type="submit" className="btn btn-primary mt-5">Invia</button>
-              : <button type="submit" className="btn btn-primary mt-5" disabled>Compila tutti i campi come richiesto</button>
-            )
+            noInput
+              ? < button type="submit" className="btn btn-primary mt-5" disabled>Compila tutti i campi come richiesto</button> :
+              (noError
+                ? <button type="submit" className="btn btn-primary mt-5">Invia</button>
+                : <button type="submit" className="btn btn-primary mt-5" disabled>Compila tutti i campi come richiesto</button>
+              )
           }
           <button type="reset" onClick={() => { setFormInput(newInput) }} className="btn btn-danger mt-5 ms-auto">Resetta</button>
         </div>
