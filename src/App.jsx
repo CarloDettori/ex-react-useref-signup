@@ -47,10 +47,14 @@ function App() {
   const nameRef = useRef()
   const specRef = useRef()
   const expRef = useRef()
+  const titleRef = useRef()
 
   useEffect(() => {
     nameRef.current.focus()
   }, [])
+  function scrollToName() {
+    titleRef.current.scrollIntoView({ behavior: "smooth" })
+  }
 
   const handleChange = (e) => {
 
@@ -85,7 +89,7 @@ function App() {
         break
 
       default:
-        console.log("uncontrolled");
+        console.log("uncontrolled input");
     }
 
     setFormInput((prev) => ({
@@ -116,15 +120,19 @@ function App() {
       console.log(formInput)
       setFormInput(newInput)
     } else {
-      console.error("vlidazione non conentita")
+      console.error("vlidazione non consentita")
       console.error(error)
     }
   };
 
+  function scrollToTop() {
+    titleRef.current.scrollIntoView({ behavior: "smooth" })
+  }
+
 
   return (
     <main>
-      <h1 id="title">INSERISCI I TUOI DATI</h1>
+      <h1 ref={titleRef} id="title">INSERISCI I TUOI DATI</h1>
       <form onSubmit={handleSubmit}>
 
         <div className="mb-4">
@@ -135,7 +143,7 @@ function App() {
             type="text"
             className="form-control"
             id="name"
-            placeholder="GianPierGiorgio Frastinellucci"
+            placeholder="Gianpiergiorgio Frastinellucci"
             required
           />
         </div>
@@ -273,10 +281,11 @@ function App() {
                 : <button type="submit" className="btn btn-primary mt-5" disabled>Compila tutti i campi come richiesto</button>
               )
           }
-          <button type="reset" onClick={() => { setFormInput(newInput) }} className="btn btn-danger mt-5 ms-auto">Resetta</button>
+          <button type="reset" onClick={() => { setFormInput(newInput); nameRef.current.focus() }} className="btn btn-danger mt-5 ms-auto">Resetta</button>
         </div>
       </form>
-    </main>
+      <i onClick={scrollToName} className="fa-solid fa-circle-arrow-up"></i>
+    </main >
   )
 }
 

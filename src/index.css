@@ -27,6 +27,13 @@ p {
     margin: 0
 }
 
+i {
+    position: fixed;
+    bottom: 12px;
+    right: 12px;
+    font-size: 150%;
+}
+
 .selector {
     cursor: pointer;
 }
